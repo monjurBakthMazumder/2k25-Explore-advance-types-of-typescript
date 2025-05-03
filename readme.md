@@ -821,6 +821,102 @@ This pattern is particularly useful in form handling, dynamic property lookups, 
 
 ---
 
+## Asynchronous TypeScript
+
+Asynchronous programming is crucial in modern web development, especially when dealing with tasks like API calls, file reading, or timers. TypeScript fully supports asynchronous operations using `Promises` and `async/await` syntax — allowing you to write clean, readable, and type-safe asynchronous code.
+
+---
+
+### 1. **Basic Promise Example with `boolean`**
+
+```ts
+const createPromise1 = (): Promise<boolean> => {
+  return new Promise<boolean>((resolve, reject) => {
+    const data: boolean = true;
+    if (data) {
+      resolve(data);
+    } else {
+      reject("Failed to load data");
+    }
+  });
+};
+
+const showData1 = async (): Promise<boolean> => {
+  const data: boolean = await createPromise1();
+  console.log("Boolean Promise Result:", data);
+  return data;
+};
+
+showData1();
+```
+
+> ✅ We define a promise that resolves a boolean and consume it using `async/await`.
+
+---
+
+### 2. **Promise with a Custom Object Type**
+
+```ts
+type TSomething = {
+  something: string;
+};
+
+const createPromise2 = (): Promise<TSomething> => {
+  return new Promise<TSomething>((resolve, reject) => {
+    const data: TSomething = { something: "This is something" };
+    if (data) {
+      resolve(data);
+    } else {
+      reject("Failed to load object data");
+    }
+  });
+};
+
+const showData2 = async (): Promise<TSomething> => {
+  const data: TSomething = await createPromise2();
+  console.log("Object Promise Result:", data);
+  return data;
+};
+
+showData2();
+```
+
+> ✅ Promises can return objects by defining a custom type (`TSomething`) and using `Promise<TSomething>`.
+
+---
+
+### 3. **Fetching Data from an API using `fetch`**
+
+```ts
+type TTodo = {
+  id: number;
+  userId: number;
+  title: string;
+  completed: boolean;
+};
+
+const getTodo = async (): Promise<TTodo> => {
+  const response = await fetch("https://jsonplaceholder.typicode.com/todos/1");
+  const data: TTodo = await response.json();
+  console.log("Fetched Todo:", data);
+  return data;
+};
+
+getTodo();
+```
+
+> ✅ You can define the expected response from an API using interfaces or types like `TTodo` to ensure type safety and clarity.
+
+---
+
+### Why Use Async with TypeScript?
+
+- **Type safety**: You always know what data you're dealing with.
+- **Cleaner syntax**: `async/await` avoids the pyramid of doom caused by chained `.then()` calls.
+- **Easy debugging**: Using tools like `console.log` with strongly-typed data makes debugging predictable.
+
+---
+
 ## 👨‍💻 Author
 
 **Md Monjur Bakth Mazumder**  
