@@ -637,6 +637,112 @@ console.log("Tuple with number and user:", tuple2);
 
 ---
 
+## Constraints in TypeScript
+
+When using **generics** in TypeScript, you may want to ensure that the generic type has a specific shape or structure. This is where **constraints** come into play. You can use `extends` to restrict what kinds of values are allowed as type arguments.
+
+---
+
+### Example: Enforcing Structure with Constraints
+
+Let's consider a scenario where we want to add a course to a student object. We need to ensure that the student object contains at least `id`, `name`, and `email`.
+
+```ts
+const addCourseToStudent = <
+  T extends { id: number; name: string; email: string }
+>(
+  student: T
+) => {
+  const course = "Next Level Web Development";
+  return {
+    ...student,
+    course,
+  };
+};
+```
+
+### How It Works:
+
+- `T extends { id: number; name: string; email: string }>` ensures the object passed **must include at least** these three properties.
+- This keeps the function flexible (it can take extra properties too) but **type-safe**.
+
+---
+
+### Example 1: Student with Additional `role` Property
+
+```ts
+const student1 = addCourseToStudent<{
+  id: number;
+  name: string;
+  email: string;
+  role: string;
+}>({
+  id: 22,
+  name: "Monjur",
+  email: "monjur@gmail.com",
+  role: "User",
+});
+
+console.log("Student 1 with course:", student1);
+```
+
+**Output:**
+
+```json
+{
+  "id": 22,
+  "name": "Monjur",
+  "email": "monjur@gmail.com",
+  "role": "User",
+  "course": "Next Level Web Development"
+}
+```
+
+---
+
+### Example 2: Student with `role` and `age` Properties
+
+```ts
+const student2 = addCourseToStudent<{
+  id: number;
+  name: string;
+  email: string;
+  role: string;
+  age: number;
+}>({
+  id: 54,
+  name: "Monjur",
+  email: "monjur@gmail.com",
+  role: "Admin",
+  age: 22,
+});
+
+console.log("Student 2 with course:", student2);
+```
+
+**Output:**
+
+```json
+{
+  "id": 54,
+  "name": "Monjur",
+  "email": "monjur@gmail.com",
+  "role": "Admin",
+  "age": 22,
+  "course": "Next Level Web Development"
+}
+```
+
+---
+
+### Why Use Constraints?
+
+- ✅ Enforce minimum required structure on generic types.
+- ✅ Maintain type safety with flexibility for additional properties.
+- ✅ Ideal for utility functions, form validators, API responses, etc.
+
+---
+
 ## 👨‍💻 Author
 
 **Md Monjur Bakth Mazumder**  
