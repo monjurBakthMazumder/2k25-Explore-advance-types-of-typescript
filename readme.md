@@ -310,6 +310,103 @@ console.log("Add using interface:", add2(15, 25)); // 👉 40
 
 ---
 
+## Introduction to Generics in TypeScript
+
+Generics are a powerful feature in TypeScript that allow you to create reusable components or functions that work with any data type, while still maintaining type safety.
+
+They are especially useful when building libraries, utility functions, or working with collections of data.
+
+---
+
+### Generic Arrays
+
+A common use of generics is to define arrays that can hold any type of data, while ensuring type safety.
+
+```ts
+type GenericArray<T> = Array<T>;
+```
+
+We can now use `GenericArray<T>` for different types:
+
+```ts
+// Numbers
+const rollNumber1: number[] = [234, 234, 234];
+const rollNumber2: Array<number> = [234, 234, 234];
+const rollNumber3: GenericArray<number> = [234, 234, 234];
+
+console.log("Roll numbers (GenericArray):", rollNumber3);
+
+// Strings
+const mentors: GenericArray<string> = ["x", "y", "z"];
+console.log("Mentors (GenericArray):", mentors);
+
+// Booleans
+const flags: GenericArray<boolean> = [true, false, true];
+console.log("Booleans (GenericArray):", flags);
+
+// Objects
+const users: GenericArray<{ name: string; age: number }> = [
+  { name: "Monjur", age: 23 },
+  { name: "Mazumder", age: 34 },
+];
+console.log("Users (GenericArray of objects):", users);
+```
+
+**Why Use Generic Arrays?**
+
+- Reusability: Define once, use with many types.
+- Type Safety: Prevents accidental type mismatches.
+- Clean Syntax: Improves readability for complex data structures.
+
+---
+
+### Generic Tuples
+
+Tuples are fixed-length arrays where each position can hold a different type. We can also make them generic!
+
+```ts
+type GenericTuple<X, Y> = [X, Y];
+```
+
+```ts
+const user1: GenericTuple<string, string> = ["Alice", "Admin"];
+console.log("Tuple with strings:", user1);
+
+const userWithId: GenericTuple<string, { name: string; age: number }> = [
+  "user-123",
+  { name: "Monjur", age: 23 },
+];
+console.log("Tuple with string and object:", userWithId);
+```
+
+**Why Use Generic Tuples?**
+
+- Strong typing for structured pairs.
+- Useful for key-value pairs, ID-object relationships, and more.
+- Great for returning multiple values from a function.
+
+---
+
+### When to Use Generics
+
+| Use Case                             | Why Use Generics?                      |
+| ------------------------------------ | -------------------------------------- |
+| Reusable Array/Collection Structures | Type-safe and flexible                 |
+| Functions That Accept Many Types     | Enforce input/output types dynamically |
+| Utility Libraries                    | Generic utilities work for all types   |
+| API Response Wrappers                | Flexible return data models            |
+
+---
+
+### Summary
+
+- Generics make your code **reusable, scalable, and type-safe**.
+- Use generic arrays like `GenericArray<T>` for consistent handling of different types.
+- Use generic tuples to strongly type fixed-length, mixed-type values.
+- TypeScript generics help you write better, cleaner, and safer code.
+
+---
+
 ## 👨‍💻 Author
 
 **Md Monjur Bakth Mazumder**  
