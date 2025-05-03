@@ -407,6 +407,128 @@ console.log("Tuple with string and object:", userWithId);
 
 ---
 
+## Generics with Interfaces in TypeScript
+
+In TypeScript, interfaces can be combined with **generics** to build flexible, reusable, and strongly-typed data structures. This is especially useful when the shape of certain properties (like devices or tools a user uses) may vary.
+
+---
+
+### Generic Developer Interface
+
+We define a generic interface `IDeveloper<T, X = null>` which allows us to specify the types for:
+
+- `T`: The smartwatch used by the developer.
+- `X`: (Optional) The type of bike the developer uses. Defaults to `null`.
+
+```ts
+interface IDeveloper<T, X = null> {
+  name: string;
+  computer: {
+    brand: string;
+    model: string;
+    releasedYear: number;
+  };
+  smartWatch: T;
+  bike?: X;
+}
+```
+
+---
+
+### Example 1: Developer with HP Smartwatch (no bike)
+
+We define a `IHPWatch` interface and use it as a generic argument.
+
+```ts
+interface IHpWatch {
+  brand: string;
+  model: string;
+  display: string;
+}
+
+const developer1: IDeveloper<IHpWatch> = {
+  name: "Monjur",
+  computer: {
+    brand: "HP",
+    model: "1200",
+    releasedYear: 2025,
+  },
+  smartWatch: {
+    brand: "HP",
+    model: "1200",
+    display: "4K",
+  },
+};
+
+console.log("Developer with HP Watch (no bike):", developer1);
+```
+
+✔️ **Result:** A developer object where the `smartWatch` follows the `IHPWatch` interface, and `bike` is omitted.
+
+---
+
+### Example 2: Developer with Apple Watch and a Bike
+
+We define additional interfaces for `IAppleWatch` and `IBike`, then pass both types into the `IDeveloper` interface.
+
+```ts
+interface IAppleWatch {
+  brand: string;
+  model: string;
+  heartTrack: boolean;
+  sleepTrack: boolean;
+}
+
+interface IBike {
+  brand: string;
+  EmgineCapecity: string;
+}
+
+const developer2: IDeveloper<IAppleWatch, IBike> = {
+  name: "Monjur",
+  computer: {
+    brand: "HP",
+    model: "1200",
+    releasedYear: 2025,
+  },
+  smartWatch: {
+    brand: "Apple",
+    model: "8500",
+    heartTrack: true,
+    sleepTrack: true,
+  },
+  bike: {
+    brand: "Yamaha",
+    EmgineCapecity: "200cc",
+  },
+};
+
+console.log("Developer with Apple Watch and Bike:", developer2);
+```
+
+**Result:** A strongly typed developer object with both a smartwatch and a bike defined.
+
+---
+
+### Why Use Generics with Interfaces?
+
+| Benefit      | Description                                                    |
+| ------------ | -------------------------------------------------------------- |
+| Reusability  | Define once, use with multiple types.                          |
+| Flexibility  | Swap out smartwatch or bike types easily using generics.       |
+| Type Safety  | Prevent incorrect data structure at compile time.              |
+| Cleaner Code | Avoids redundant interfaces and promotes consistent structure. |
+
+---
+
+### Summary
+
+- Generics + Interfaces allow for flexible, strongly-typed models.
+- Useful for designing reusable blueprints where some parts vary.
+- Helps reduce duplication and ensures correctness across use cases.
+
+---
+
 ## 👨‍💻 Author
 
 **Md Monjur Bakth Mazumder**  
