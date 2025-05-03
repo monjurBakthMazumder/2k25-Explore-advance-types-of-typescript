@@ -529,6 +529,114 @@ console.log("Developer with Apple Watch and Bike:", developer2);
 
 ---
 
+## Functions with Generics
+
+Generics in functions allow you to write **reusable and type-safe code** that works with multiple data types. This is extremely useful when you want to create flexible utilities that maintain type consistency.
+
+---
+
+### Basic Example (Without Generics)
+
+```ts
+const createArray = (param: string): string[] => {
+  return [param];
+};
+
+const result1 = createArray("Bangladesh");
+console.log("createArray result:", result1); // ['Bangladesh']
+```
+
+This function only accepts strings. If you need to support numbers, booleans, or objects, you'd have to write separate versions for each.
+
+---
+
+### Using Generics for Flexibility
+
+```ts
+const createArrayWithGeneric = <T>(param: T): T[] => {
+  return [param];
+};
+```
+
+This generic function can accept any data type. Example usage:
+
+```ts
+// String
+const result2 = createArrayWithGeneric<string>("Bangladesh");
+console.log("Generic with string:", result2); // ['Bangladesh']
+
+// Number
+const result3 = createArrayWithGeneric<number>(63546345);
+console.log("Generic with number:", result3); // [63546345]
+
+// Boolean
+const result4 = createArrayWithGeneric<boolean>(true);
+console.log("Generic with boolean:", result4); // [true]
+```
+
+---
+
+### Using Generics with Objects
+
+```ts
+interface IUser {
+  name: string;
+  age: number;
+}
+
+const result5 = createArrayWithGeneric<IUser>({
+  name: "Md Monjur Bath Mazumder",
+  age: 23,
+});
+
+console.log("Generic with object:", result5);
+// Output: [{ name: 'Md Monjur Bath Mazumder', age: 23 }]
+```
+
+This helps preserve strong typing when working with structured data like interfaces.
+
+---
+
+## Creating Tuples with Generics
+
+You can also use generics to return multiple values as a tuple:
+
+```ts
+const createTupleWithGeneric = <T, Q>(param1: T, param2: Q): [T, Q] => {
+  return [param1, param2];
+};
+```
+
+### Tuple of string and number
+
+```ts
+const tuple1 = createTupleWithGeneric<string, number>("Bangladesh", 63546345);
+console.log("Tuple with string and number:", tuple1); // ['Bangladesh', 63546345]
+```
+
+### Tuple of number and object
+
+```ts
+const tuple2 = createTupleWithGeneric<number, IUser>(323423, {
+  name: "Md Monjur Bath Mazumder",
+  age: 23,
+});
+
+console.log("Tuple with number and user:", tuple2);
+// Output: [323423, { name: 'Md Monjur Bath Mazumder', age: 23 }]
+```
+
+---
+
+### Why Use Generics?
+
+- Reusability: Define a single function for multiple types.
+- Type Safety: Maintains proper type relationships across parameters and return values.
+- Improved Developer Experience: Offers better autocompletion and compile-time checks.
+- Scalable Design: Ideal for library and API development.
+
+---
+
 ## 👨‍💻 Author
 
 **Md Monjur Bakth Mazumder**  
