@@ -917,6 +917,109 @@ getTodo();
 
 ---
 
+## Conditional Types in TypeScript
+
+Conditional types in TypeScript allow you to define types that depend on a condition. This makes TypeScript more flexible and powerful when dealing with types that vary based on some condition.
+
+The syntax for a conditional type looks like this:
+
+```ts
+T extends U ? X : Y
+```
+
+Where:
+
+- `T` is a type that will be checked.
+- `U` is a type that `T` is being compared to.
+- `X` is the type returned if `T` extends `U`.
+- `Y` is the type returned if `T` does not extend `U`.
+
+### Key Benefits
+
+- **Type safety:** Conditional types allow for more granular control over type resolution.
+- **Dynamic typing:** They enable more dynamic behavior based on types.
+- **Code clarity:** Makes complex type logic easier to understand and manage.
+
+## Example 1: Basic Conditional Type
+
+```ts
+type a1 = number;
+type b1 = undefined;
+
+// Check if `a1` extends null. If true, return `true`; otherwise, return `false`.
+type x = a1 extends null ? true : false; // Expected Output: false
+```
+
+### Explanation:
+
+In this example:
+
+- `a1` is of type `number`.
+- We check if `a1` extends `null`. Since `number` is not assignable to `null`, the type `x` resolves to `false`.
+
+---
+
+## Example 2: Nested Conditional Types
+
+```ts
+type y = a1 extends null ? true : b1 extends undefined ? undefined : any; // Expected Output: undefined
+```
+
+### Explanation:
+
+This demonstrates how we can have conditional types nested inside each other:
+
+- First, it checks if `a1` extends `null`. Since it doesn't, it checks if `b1` extends `undefined`.
+- If `b1` extends `undefined`, the type resolves to `undefined`. Otherwise, it resolves to `any`.
+
+---
+
+## Example 3: Conditional Types with Object Keys
+
+```ts
+type TRich = {
+  bike: string;
+  car: string;
+  ship: string;
+};
+
+type TCheckVehicle<T> = T extends keyof TRich ? true : false;
+
+type THasBike = TCheckVehicle<"bike">; // Expected Output: true
+type THasCar = TCheckVehicle<"car">; // Expected Output: true
+type THasPlane = TCheckVehicle<"plane">; // Expected Output: false
+```
+
+### Explanation:
+
+Here, we define an object `TRich` with keys `bike`, `car`, and `ship`, and use a conditional type to check whether a type `T` is one of those keys:
+
+- `THasBike` will resolve to `true` because `"bike"` is a key in `TRich`.
+- `THasCar` will resolve to `true` because `"car"` is also a key.
+- `THasPlane` will resolve to `false` because `"plane"` is not a key of `TRich`.
+
+---
+
+## Summary
+
+Conditional types are a powerful feature in TypeScript that allows you to define types that depend on certain conditions, improving the flexibility and safety of your code. By using `extends` and conditional logic, you can create complex type relationships that react dynamically based on the type in question.
+
+### Key Takeaways:
+
+- Conditional types let you create types that change depending on other types.
+- They are useful for more complex type transformations.
+- Using `keyof`, you can dynamically check for keys in an object and resolve types accordingly.
+
+For further reading, you can check out the official TypeScript documentation on [Conditional Types](https://www.typescriptlang.org/docs/).
+
+### Notes:
+
+1. **Conditional Types:** This feature allows TypeScript to choose between different types based on a condition.
+2. **`keyof` Operator:** The `keyof` operator is useful for checking if a type is one of the keys of an object.
+3. **Practical Uses:** You can use conditional types for a variety of tasks like validating keys in an object, transforming types, or making decisions in generic functions.
+
+---
+
 ## 👨‍💻 Author
 
 **Md Monjur Bakth Mazumder**  
