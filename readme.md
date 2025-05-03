@@ -96,6 +96,88 @@ Take your TypeScript skills to the next level with advanced type techniques:
 
 ---
 
+##  Type Assertion & Type Narrowing in TypeScript
+
+TypeScript sometimes cannot determine the exact type of a variable, especially when using `any` or union types like `string | number`. In such cases, **type assertion** and **type narrowing** help guide TypeScript's type system for safer, more accurate code.
+
+---
+
+### Example 1: Type Assertion with `any`
+
+```ts
+let anything: any;
+
+// Assign a string value to a variable typed as 'any'
+anything = "Md Monjur Bakh Mazumder";
+
+// Use type assertion to tell TypeScript it's a string
+const nameLength = (anything as string).length;
+console.log("Length of the name:", nameLength); // 👉 Output: 27
+```
+
+**Explanation:**
+TypeScript allows us to assert the type of `anything` as `string` using `(anything as string)`, which enables safe access to string-specific properties like `.length`.
+
+---
+
+### Example 2: Type Narrowing with Union Types
+
+```ts
+const kgToGm = (value: string | number): string | number | undefined => {
+  if (typeof value === "string") {
+    const convertedValue = parseFloat(value) * 1000;
+    return `The converted value is: ${convertedValue}g`;
+  }
+  if (typeof value === "number") {
+    return value * 1000;
+  }
+};
+
+const result1 = kgToGm(100) as number;
+const result2 = kgToGm("305") as string;
+
+console.log("100kg in grams:", result1); // 👉 Output: 100000
+console.log("305kg in grams (string):", result2); // 👉 Output: The converted value is: 305000g
+```
+
+**Explanation:**
+This function handles inputs as either a string or number. Using `typeof`, we narrow down the type inside the function to correctly parse and process the input. Then we use `as` assertions when retrieving the results, because TypeScript can't infer the exact return type from a union.
+
+---
+
+### Example 3: Type Assertion in Error Handling
+
+```ts
+type TCustomError = {
+  message: string;
+};
+
+try {
+  // Simulating an error for demonstration
+  throw { message: "Something went wrong!" };
+} catch (error) {
+  // Type assertion to access the error message
+  console.log("Caught error:", (error as TCustomError).message); // 👉 Output: Something went wrong!
+}
+```
+
+**Explanation:**
+In `catch` blocks, TypeScript assumes the error is of type `unknown`. To safely access properties like `.message`, we use a type assertion (`error as TCustomError`) to tell TypeScript what to expect.
+
+---
+
+### Summary
+
+* **Type Assertion** (`as`) tells TypeScript what type a variable should be treated as.
+* **Type Narrowing** uses conditions like `typeof` to let TypeScript infer more specific types.
+* These techniques help make TypeScript code more type-safe and error-resistant, especially when dealing with flexible or uncertain input values.
+
+---
+
+Let me know if you'd like similar sections for other advanced topics like generics, `keyof`, or utility types!
+
+
+
 ## 👨‍💻 Author
 
 **Md Monjur Bakth Mazumder**  
