@@ -1020,6 +1020,115 @@ For further reading, you can check out the official TypeScript documentation on 
 
 ---
 
+## Mapped Types in TypeScript
+
+Mapped types are a powerful feature in TypeScript that allows you to transform the properties of an existing type into new ones. This can be helpful for scenarios where you need to create types based on the properties of another type or modify the properties of an existing object. In this section, we'll explore how mapped types work, and how to use them with arrays and objects.
+
+---
+
+### 1. **Basic Example of Mapped Types with Arrays**
+
+---
+
+First, let’s look at an example with arrays where we convert elements from one type to another:
+
+```typescript
+const arrOfNumer: number[] = [2, 4, 7];
+const arrOfString1: string[] = ["2", "4", "7"];
+
+// Mapping number array to string array using `map()`
+const arrOfString2: string[] = arrOfNumer.map((number) => number.toString());
+console.log("Array of numbers:", arrOfNumer);
+console.log("Array of strings (initial):", arrOfString1);
+console.log("Array of strings (mapped from numbers):", arrOfString2);
+```
+
+In this example, we start with an array of numbers (`arrOfNumer`) and an array of strings (`arrOfString1`). By using the `map()` function, we create a new array (`arrOfString2`) where each number is converted into a string. This demonstrates how mapped types can help transform an array's elements.
+
+---
+
+### 2. **Mapped Types with Object Types**
+
+---
+
+Mapped types are commonly used with object types as well. Let’s consider the following example where we create a mapped type to convert object properties:
+
+```typescript
+type TAreaNumber = {
+  height: number;
+  width: number;
+};
+
+type TAreaString1 = {
+  height: string;
+  width: string;
+};
+
+// Using a mapped type to convert the properties of TAreaNumber to strings
+type TAreaString2 = {
+  [key in "height" | "width"]: string;
+};
+
+// Using a mapped type with `keyof` operator to make the properties of TAreaNumber into strings
+type TAreaString3 = {
+  [key in keyof TAreaNumber]: string;
+};
+```
+
+In this example:
+
+- `TAreaNumber` is a type with numeric properties `height` and `width`.
+- `TAreaString1` is another type where both properties are strings.
+- `TAreaString2` and `TAreaString3` are mapped types that dynamically map over the keys of `TAreaNumber` and set the property types to `string`.
+
+---
+
+### 3. **Extracting Types with `keyof`**
+
+---
+
+You can also use the `keyof` operator with mapped types to extract specific property types. In the example below:
+
+```typescript
+type THeight = TAreaNumber["height"];
+console.log("Type of height in TAreaNumber:", THeight);
+```
+
+The type `THeight` will be `number`, because it's extracting the type of the `height` property from `TAreaNumber`.
+
+---
+
+### 4. **Mapped Types with Generics**
+
+---
+
+Mapped types can also work with generics to create more flexible types:
+
+```typescript
+type TAreaStringGeneric<T> = {
+  [key in keyof T]: T[key];
+};
+
+const area1: TAreaStringGeneric<{ height: string; width: number }> = {
+  height: "100",
+  width: 500,
+};
+
+console.log("Mapped type area with string height and number width:", area1);
+```
+
+Here, we define a generic mapped type `TAreaStringGeneric`, which takes an object type `T` and maps over its properties, preserving the original types. This provides a flexible way to create types based on any object you pass in.
+
+### Summary
+
+- **Mapped Types**: Enable transformation of types by iterating over keys and modifying their values.
+- **`keyof` Operator**: Can be used to extract specific property types from an object.
+- **Generics**: Allow you to create mapped types that work with any type, providing flexibility and reusability.
+
+Mapped types are incredibly powerful and can be used to manipulate and derive new types based on the properties of other types. By understanding and utilizing mapped types, you can write more dynamic and reusable TypeScript code.
+
+---
+
 ## 👨‍💻 Author
 
 **Md Monjur Bakth Mazumder**  
