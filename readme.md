@@ -1,6 +1,4 @@
-
-
-#  2k25: Explore Advanced Types of TypeScript
+# 2k25: Explore Advanced Types of TypeScript
 
 This guide offers a comprehensive overview of essential and advanced TypeScript concepts. Whether you're just starting out or brushing up your skills, this documentation walks you through key topics—from basic setup to powerful type manipulation techniques including generics, conditional types, and utility types.
 
@@ -96,7 +94,7 @@ Take your TypeScript skills to the next level with advanced type techniques:
 
 ---
 
-##  Type Assertion & Type Narrowing in TypeScript
+## Type Assertion & Type Narrowing in TypeScript
 
 TypeScript sometimes cannot determine the exact type of a variable, especially when using `any` or union types like `string | number`. In such cases, **type assertion** and **type narrowing** help guide TypeScript's type system for safer, more accurate code.
 
@@ -168,15 +166,149 @@ In `catch` blocks, TypeScript assumes the error is of type `unknown`. To safely 
 
 ### Summary
 
-* **Type Assertion** (`as`) tells TypeScript what type a variable should be treated as.
-* **Type Narrowing** uses conditions like `typeof` to let TypeScript infer more specific types.
-* These techniques help make TypeScript code more type-safe and error-resistant, especially when dealing with flexible or uncertain input values.
+- **Type Assertion** (`as`) tells TypeScript what type a variable should be treated as.
+- **Type Narrowing** uses conditions like `typeof` to let TypeScript infer more specific types.
+- These techniques help make TypeScript code more type-safe and error-resistant, especially when dealing with flexible or uncertain input values.
 
 ---
 
-Let me know if you'd like similar sections for other advanced topics like generics, `keyof`, or utility types!
+## Interface vs Type in TypeScript
 
+TypeScript gives you two powerful tools to define custom types: `type` aliases and `interface`. While they may appear similar, each has unique strengths.
 
+This section explores the differences, similarities, and best use cases—with practical examples.
+
+---
+
+### ✅ Defining Object Shapes
+
+Both `type` and `interface` can be used to define the shape of an object.
+
+```ts
+// Using 'type'
+type TUser = {
+  name: string;
+  age: number;
+};
+
+type TUserWithRole = TUser & { role: string };
+
+// Using 'interface'
+interface IUser {
+  name: string;
+  age: number;
+}
+
+interface IUserWithRole extends IUser {
+  role: string;
+}
+```
+
+```ts
+const user1: IUser = {
+  name: "Md Monjur Bath Mazumder",
+  age: 23,
+};
+
+const user2: TUserWithRole = {
+  name: "Md Monjur Bath Mazumder",
+  age: 23,
+  role: "manager",
+};
+
+const user3: IUserWithRole = {
+  name: "Md Monjur Bath Mazumder",
+  age: 23,
+  role: "manager",
+};
+
+console.log("User with interface:", user1);
+console.log("User with type:", user2);
+console.log("User with interface + extend:", user3);
+```
+
+**Explanation:**
+
+- Both `type` and `interface` allow us to define object structure.
+- Both can be extended (`interface` with `extends`, `type` with `&` intersection).
+- Interfaces are slightly more flexible when working with object inheritance.
+
+---
+
+### Primitive Types: Only with `type`
+
+```ts
+type TRoleNumber = number; // ✅ Valid
+
+// ❌ Interfaces can't define primitive types directly
+// interface IRoleNumber = number; // Invalid
+```
+
+**Use `type` when you want to define primitive values, union types, or more complex types.**
+
+---
+
+### Arrays with Type and Interface
+
+```ts
+// Using 'type' for array
+type TRole = number[];
+const roleNumbers1: TRole = [342, 43, 546, 6, 67, 756];
+console.log("Role numbers using type:", roleNumbers1);
+
+// Using 'interface' with index signature
+interface IRole {
+  [index: number]: number;
+}
+const roleNumbers2: IRole = [342, 43, 546, 6, 67, 756];
+console.log("Role numbers using interface:", roleNumbers2);
+```
+
+**Both `type` and `interface` can be used for arrays. Use whichever suits your context best.**
+
+---
+
+### ⚙️ Function Types
+
+```ts
+// Function type using 'type'
+type TAdd = (num1: number, num2: number) => number;
+
+// Function type using 'interface'
+interface IAdd {
+  (num1: number, num2: number): number;
+}
+
+const add1: TAdd = (num1, num2) => num1 + num2;
+const add2: IAdd = (num1, num2) => num1 + num2;
+
+console.log("Add using type:", add1(10, 20)); // 👉 30
+console.log("Add using interface:", add2(15, 25)); // 👉 40
+```
+
+**Both are valid, and function types work well with either `type` or `interface`.**
+
+---
+
+### Summary: Type vs Interface
+
+| Feature                 | `type`                           | `interface`                   |
+| ----------------------- | -------------------------------- | ----------------------------- |
+| Object type definition  | ✅ Yes                           | ✅ Yes                        |
+| Extend another type     | ✅ Via intersection (`&`)        | ✅ Via `extends`              |
+| Implements (with class) | ✅ Yes                           | ✅ Yes                        |
+| Use for primitives      | ✅ Yes                           | ❌ No                         |
+| Declaration merging     | ❌ No                            | ✅ Yes                        |
+| Preferred for objects   | ✔ When using unions & primitives | ✔ When defining API contracts |
+
+---
+
+📌 **Rule of Thumb**
+
+- Use `interface` for defining object shapes, especially when working with classes or APIs.
+- Use `type` for primitives, union types, intersections, or when you need more flexibility.
+
+---
 
 ## 👨‍💻 Author
 
@@ -184,6 +316,6 @@ Let me know if you'd like similar sections for other advanced topics like generi
 Software Engineer & Lead Frontend Developer  
 [Qrinux](https://www.qrinux.com/)  
 [Email me](mailto:md.monjurmbm2001@gmail.com)  
-[Portfolio](https://mdmonjurbakthmazumder.netlify.app)  
+[Portfolio](https://mdmonjurbakthmazumder.netlify.app)
 
-*Passionate about building clean, maintainable, and scalable applications.*
+_Passionate about building clean, maintainable, and scalable applications._
