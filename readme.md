@@ -1129,6 +1129,137 @@ Mapped types are incredibly powerful and can be used to manipulate and derive ne
 
 ---
 
+# TypeScript Utility Types
+
+TypeScript provides built-in **utility types** that help you transform existing types easily and concisely. Below is an explanation of commonly used utility types along with examples.
+
+---
+
+## 🔹 1. `Pick<Type, Keys>`
+
+Creates a new type by picking a subset of properties from another type.
+
+```ts
+type TPerson = {
+  name: string;
+  age: number;
+  contactNo: string;
+};
+
+type TName = Pick<TPerson, "name">; // { name: string }
+type TNameAge = Pick<TPerson, "name" | "age">; // { name: string; age: number }
+
+const nameOnly: TName = { name: "Monjur" };
+```
+
+---
+
+## 🔹 2. `Omit<Type, Keys>`
+
+Creates a new type by **excluding** certain keys from an existing type.
+
+```ts
+type TContactInfo = Omit<TPerson, "name" | "age">; // { contactNo: string }
+
+const contactInfo: TContactInfo = {
+  contactNo: "1234567890",
+};
+```
+
+---
+
+## 🔹 3. `Required<Type>`
+
+Converts all optional properties of a type to **required**.
+
+```ts
+type TPerson = {
+  name: string;
+  age: number;
+  email?: string;
+  contactNo: string;
+};
+
+type TRequiredPerson = Required<TPerson>;
+
+const person: TRequiredPerson = {
+  name: "Monjur",
+  age: 23,
+  email: "monjur@example.com",
+  contactNo: "1234567890",
+};
+```
+
+---
+
+## 🔹 4. `Partial<Type>`
+
+Makes all properties **optional**.
+
+```ts
+type TPartialPerson = Partial<TPerson>;
+
+const partialPerson: TPartialPerson = {
+  name: "Monjur",
+};
+```
+
+---
+
+## 🔹 5. `Readonly<Type>`
+
+Makes all properties **immutable** (read-only).
+
+```ts
+type TReadonlyPerson = Readonly<TPerson>;
+
+const readonlyPerson: TReadonlyPerson = {
+  name: "Monjur",
+  age: 23,
+  email: "monjur@example.com",
+  contactNo: "1234567890",
+};
+
+// readonlyPerson.name = "Test"; ❌ Error: Cannot assign to 'name' because it is a read-only property
+```
+
+---
+
+## 🔹 6. `Record<Keys, Type>`
+
+Creates an object type with specified keys and value types.
+
+```ts
+type TMyObj = Record<string, string>;
+
+const myObj: TMyObj = {
+  a: "aa",
+  b: "bb",
+  c: "cc",
+};
+
+const anyObj: Record<string, unknown> = {
+  name: "Monjur",
+  age: 23,
+  isAdmin: true,
+};
+```
+
+---
+
+## ✅ Summary Table
+
+| Utility Type   | Description                                               |
+| -------------- | --------------------------------------------------------- |
+| `Pick<T, K>`   | Picks specific properties from a type.                    |
+| `Omit<T, K>`   | Removes specific properties from a type.                  |
+| `Required<T>`  | Makes all properties required.                            |
+| `Partial<T>`   | Makes all properties optional.                            |
+| `Readonly<T>`  | Makes all properties read-only.                           |
+| `Record<K, T>` | Creates an object type with keys of `K` and values of `T` |
+
+---
+
 ## 👨‍💻 Author
 
 **Md Monjur Bakth Mazumder**  
