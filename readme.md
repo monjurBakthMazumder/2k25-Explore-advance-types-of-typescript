@@ -743,6 +743,84 @@ console.log("Student 2 with course:", student2);
 
 ---
 
+## Constraint Using `keyof`
+
+In TypeScript, the `keyof` operator is a powerful tool that allows you to create types based on the keys of an object. It is especially useful when working with **generic functions** where you want to ensure a parameter corresponds to a valid property name of a given object.
+
+---
+
+### Basic Example
+
+Suppose we have a type that defines some vehicles:
+
+```ts
+type TVehicle = {
+  bike: string;
+  car: string;
+  ship: string;
+};
+```
+
+You can manually create a union type of the keys like this:
+
+```ts
+type TOwn1 = "bike" | "car" | "ship";
+```
+
+Or more efficiently, you can let TypeScript derive this union using `keyof`:
+
+```ts
+type TOwn2 = keyof TVehicle; // Equivalent to: "bike" | "car" | "ship"
+```
+
+These types can then be used as values:
+
+```ts
+const person1: TOwn1 = "bike";
+const person2: TOwn2 = "car";
+
+console.log("Person1 owns:", person1); // Output: bike
+console.log("Person2 owns:", person2); // Output: car
+```
+
+---
+
+### Real-World Example: Generic Function With `keyof`
+
+Let's say you want to create a utility function that retrieves the value of a specific property from an object. You can ensure the key being accessed is valid using a generic constraint:
+
+```ts
+const user = {
+  name: "Monjur",
+  age: 23,
+  address: "BD",
+};
+
+const getPropertyValue = <X, Y extends keyof X>(obj: X, key: Y) => {
+  return obj[key];
+};
+
+const userName = getPropertyValue(user, "name"); // OK
+const userAge = getPropertyValue(user, "age"); // OK
+
+console.log("User name:", userName); // Output: Monjur
+console.log("User age:", userAge); // Output: 23
+```
+
+---
+
+### Why Use `keyof` With Constraints?
+
+- ✅ Ensures the provided key actually exists on the object.
+- ✅ Enables fully type-safe access to object properties.
+- ✅ Makes generic utility functions more robust and reusable.
+
+---
+
+This pattern is particularly useful in form handling, dynamic property lookups, building libraries, or anywhere dynamic object access is required with type safety.
+
+---
+
 ## 👨‍💻 Author
 
 **Md Monjur Bakth Mazumder**  
